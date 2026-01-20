@@ -28,7 +28,17 @@ const server = http.createServer((request, response) => {
     }
   }
 
-  // 2. Обработка users
+  // 2. Обработка users как search-параметра
+  if (url.pathname === "/" && url.searchParams.has("users")) {
+    response.statusCode = 200;
+    response.statusMessage = "OK";
+    response.setHeader("Content-Type", "application/json; charset=utf-8");
+    response.write(getUsers());
+    response.end();
+    return;
+  }
+
+  // 3. Обработка пользователей по пути /users
   if (url.pathname === "/users") {
     response.statusCode = 200;
     response.statusMessage = "OK";
@@ -38,7 +48,7 @@ const server = http.createServer((request, response) => {
     return;
   }
 
-  // 3. Корень
+  // 4. Корень
   if (url.pathname === "/") {
     response.statusCode = 200;
     response.statusMessage = "OK";
@@ -48,7 +58,7 @@ const server = http.createServer((request, response) => {
     return;
   }
 
-  // 4. Неизвестные запросы
+  // 5. Неизвестные запросы
   response.statusCode = 500;
   response.statusMessage = "Internal Server Error";
   response.setHeader("Content-Type", "text/plain; charset=utf-8");
