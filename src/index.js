@@ -49,7 +49,7 @@ const server = http.createServer((request, response) => {
   }
 
   // 4. Корень
-  if (url.pathname === "/") {
+  if (url.pathname === "/" && [...url.searchParams.keys()].length === 0) {
     response.statusCode = 200;
     response.statusMessage = "OK";
     response.setHeader("Content-Type", "text/plain; charset=utf-8");
